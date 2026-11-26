@@ -1,8 +1,10 @@
+[![DOI](https://zenodo.org/badge/1472643573.svg)](https://doi.org/10.5281/zenodo.24549733)
+
 # Monitoring the Analytical Reliability of LLMs with Statistical Process Control
 
 Code, prompts and audit labels for the preprint:
 
-> Bhattacharyya, S. (2026). *Toward a Credible, Accurate and Precise Measurement System for LLM Analytical Errors and Hallucination: Statistical Process Monitoring with CUSUM, EWMA and a Process Reliability Index.* Preprint. [DOI to be added]
+> Bhattacharyya, S. (2026). *Toward a Credible, Accurate and Precise Measurement System for LLM Analytical Errors and Hallucination: Statistical Process Monitoring with CUSUM, EWMA and a Process Reliability Index.* Preprint. Zenodo. [https://doi.org/10.5281/zenodo.24549901](https://doi.org/10.5281/zenodo.24549901)
 
 Work carried out under the guidance of Dr Subrata Rath, SQC & OR Unit, Indian Statistical Institute, Pune.
 
@@ -53,8 +55,4 @@ Code: MIT (see `LICENSE`). Text, prompts and labels: CC BY 4.0.
 
 ## Citation
 
-See `CITATION.cff`, or cite the preprint above.
-
-## Contact
-
-Srija Bhattacharyya · srija.bhattacharyya04@gmail.com
+Please cite the preprint above. To cite the code and data,
