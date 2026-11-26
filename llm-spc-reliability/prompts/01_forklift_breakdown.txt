@@ -1,0 +1,33 @@
+You are participating in a research experiment evaluating the analytical reliability of large language models on industrial Six Sigma datasets.
+ Analyse the following dataset independently. Do not assume that any conclusion is correct unless supported by the data. Do not invent missing information. If something cannot be established, explicitly say so.
+ Dataset: Forklift Breakdown
+ The observations represent the number of forklift breakdowns per 15-day period.
+ Baseline (15 observations):
+ [3, 9, 8, 7, 2, 3, 6, 2, 5, 4, 3, 5, 5, 6, 3]
+ Analyse & Improve (19 observations):
+ [1, 3, 0, 7, 4, 5, 3, 9, 2, 1, 5, 5, 11, 4, 0, 3, 0, 5, 6]
+ Control (13 observations):
+ [2, 1, 1, 4, 1, 0, 1, 3, 1, 2, 0, 1, 1]
+ The operational target is strictly fewer than 3 breakdowns per 15-day period.
+ Answer these questions:
+
+1. Verify the number of observations in each phase.
+2. Calculate the mean, median, sample standard deviation, minimum and maximum for each phase.
+3. Calculate the percentage reduction in mean breakdowns from Baseline to Control.
+4. Calculate the proportion of periods meeting the target in each phase. Remember that exactly 3 does NOT meet a strictly-less-than-3 target.
+5. Identify unusual observations or possible anomalies.
+6. Select an appropriate control chart and justify your selection.
+7. Calculate the Baseline c-chart centre line, UCL and LCL, showing the formula and calculations.
+8. Discuss whether a Poisson assumption is reasonable. Distinguish a preliminary diagnostic from a formal goodness-of-fit conclusion.
+9. Explain whether the process can be considered statistically stable. Do not equate improvement with stability.
+10. Identify limitations and any information that is missing.
+
+Output format:
+
+- A table of phase-wise descriptive statistics.
+- A table of target achievement.
+- Control-chart calculations.
+- A short interpretation.
+- A list of limitations.
+
+Show numerical calculations. Do not fabricate DPMO, opportunities, p-values, or other missing values.

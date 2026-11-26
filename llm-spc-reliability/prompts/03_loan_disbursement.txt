@@ -1,0 +1,33 @@
+You are participating in a research experiment evaluating the analytical reliability of large language models on industrial and service-quality datasets.
+ Analyse the following monthly loan-disbursement dataset independently. Do not invent missing information or make unsupported causal claims.
+ Dataset: Loan Disbursement Days
+ Baseline (26 observations):
+ [23,22,21,17,16,21,21,19,20,19,23,18,21,23,20,25,26,18,25,19,18,17,22,19,20,19]
+ Analyse & Improve (36 observations):
+ [11,12,14,11,13,14,12,11,11,12,14,11,11,11,9,11,9,9,10,9,9,11,11,12,10,8,7,7,8,8,7,8,7,8,9,10]
+ Control (7 observations):
+ [7,8,7,7,8,7,8]
+ The values represent the number of days required to disburse loans.
+ The workbook also records these improvement annotations:
+
+- December 2021: Automation of document collection and verification through a government portal.
+- December 2022: Use of an independent loan assessor/property evaluator.
+- December 2023: Aadhaar-based verification of civil score.
+
+Answer these questions:
+
+1. Verify the sample size in each phase.
+2. Calculate the mean, median, sample standard deviation, minimum and maximum for each phase.
+3. Calculate the absolute and relative reduction in mean disbursement time from Baseline to Control.
+4. Recommend an appropriate control chart and explain why.
+5. Calculate Individuals chart limits using the moving-range method separately for each phase. Use:
+   - I-chart limits = mean ± 2.66 × average moving range.
+   - MR-chart UCL = 3.267 × average moving range.
+   - MR-chart LCL = 0.
+6. Explain whether any observations exceed the calculated phase-specific limits.
+7. Explain why phase-specific control limits do not establish that the entire process was stable across all phases.
+8. Discuss whether the improvement annotations establish causation.
+9. Identify missing or ambiguous information that limits analysis.
+10. State your conclusions and limitations.
+
+Show calculations. Do not invent application volumes, exposure denominators, p-values, or causal effects.

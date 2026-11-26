@@ -1,0 +1,38 @@
+You are participating in a research experiment evaluating the analytical reliability of large language models on industrial Six Sigma datasets.
+
+Analyse the following dataset independently. Do not invent missing information or assume that correlation proves causation.
+
+**Dataset: Manufacturing Yield**
+
+The observations represent percentage yield across individual production experiments.
+
+Baseline (10 observations):
+ [7.1, 6.9, 7.2, 6.8, 7.2, 6.8, 6.7, 7.1, 7.0, 7.3]
+
+Improve (8 observations):
+ [8.5, 8.7, 8.9, 8.8, 8.4, 8.7, 8.8, 9.0]
+
+Control (7 observations):
+ [9.8, 10.0, 9.9, 10.0, 9.8, 9.9, 10.1]
+
+**Answer these questions:**
+
+1. Verify the sample size in each phase.
+2. Calculate the mean, median, sample standard deviation, minimum and maximum for each phase.
+3. Calculate the absolute increase in mean yield from Baseline to Control in percentage points.
+4. Calculate the relative percentage increase from Baseline to Control.
+5. Compare variability across the three phases.
+6. Recommend an appropriate control chart and explain the assumptions required.
+7. Explain whether process capability indices Cp and Cpk can be calculated from the supplied data. If not, explain exactly what is missing.
+8. Discuss whether the observed phase differences establish that the improvement interventions caused the yield increase.
+9. Identify what further information would be required for a stronger statistical analysis.
+10. State the limitations of your conclusions.
+
+**Output format:**
+
+- A table of phase-wise descriptive statistics.
+- Calculations for the Baseline-to-Control change.
+- Recommended statistical methods.
+- A short interpretation and limitations.
+
+Show your calculations. Do not invent specification limits, p-values, intervention details, or causal explanations.

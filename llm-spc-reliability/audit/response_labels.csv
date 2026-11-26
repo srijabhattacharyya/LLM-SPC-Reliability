@@ -1,0 +1,46 @@
+model,run,dataset,status,defective,severity_note,notes,self_evaluated
+Claude Sonnet 5.5,1,forklift,clean,1,material,Forklift median wrong,no
+Claude Sonnet 5.5,1,yield,clean,0,,,no
+Claude Sonnet 5.5,1,loan,clean,1,material,Loan sum of squares and violation count wrong,no
+Claude Sonnet 5.5,2,forklift,clean,0,,,no
+Claude Sonnet 5.5,2,yield,clean,0,,,no
+Claude Sonnet 5.5,2,loan,clean,0,,,no
+Claude Sonnet 5.5,3,forklift,ambiguous,,,Forklift slot holds a loan analysis; source of mismatch unresolved,no
+Claude Sonnet 5.5,3,yield,clean,0,,,no
+Claude Sonnet 5.5,3,loan,clean,0,,,no
+Claude Sonnet 5.5,4,forklift,clean,0,,,no
+Claude Sonnet 5.5,4,yield,clean,0,,,no
+Claude Sonnet 5.5,4,loan,clean,0,,,no
+Claude Sonnet 5.5,5,forklift,clean,0,,,no
+Claude Sonnet 5.5,5,yield,clean,0,,,no
+Claude Sonnet 5.5,5,loan,clean,0,,,no
+Gemini 3.8 Flash,1,forklift,clean,0,,,no
+Gemini 3.8 Flash,1,yield,clean,0,,,no
+Gemini 3.8 Flash,1,loan,clean,1,material,Baseline-LCL comparison and threshold count wrong,no
+Gemini 3.8 Flash,2,forklift,clean,0,,,no
+Gemini 3.8 Flash,2,yield,clean,0,,,no
+Gemini 3.8 Flash,2,loan,clean,0,,,no
+Gemini 3.8 Flash,3,forklift,clean,0,,,no
+Gemini 3.8 Flash,3,yield,clean,0,,,no
+Gemini 3.8 Flash,3,loan,clean,1,material,33/36 below Baseline LCL (true 32/36),no
+Gemini 3.8 Flash,4,forklift,absent,,,Response absent,no
+Gemini 3.8 Flash,4,yield,clean,0,,,no
+Gemini 3.8 Flash,4,loan,clean,1,material,Threshold count wrong,no
+Gemini 3.8 Flash,5,forklift,clean,0,,,no
+Gemini 3.8 Flash,5,yield,absent,,,Response absent,no
+Gemini 3.8 Flash,5,loan,clean,1,material,Threshold comparison wrong,no
+GPT-5.6 Luna,1,forklift,clean,0,,,yes
+GPT-5.6 Luna,1,yield,clean,0,,,yes
+GPT-5.6 Luna,1,loan,clean,0,,,yes
+GPT-5.6 Luna,2,forklift,clean,0,,,yes
+GPT-5.6 Luna,2,yield,clean,0,,,yes
+GPT-5.6 Luna,2,loan,clean,0,,,yes
+GPT-5.6 Luna,3,forklift,clean,0,,,yes
+GPT-5.6 Luna,3,yield,clean,0,,,yes
+GPT-5.6 Luna,3,loan,clean,1,material,33/36 below Baseline LCL (true 32/36),yes
+GPT-5.6 Luna,4,forklift,clean,0,,,yes
+GPT-5.6 Luna,4,yield,clean,0,,,yes
+GPT-5.6 Luna,4,loan,clean,0,minor,Minor assumption about the loan unit (score 1),yes
+GPT-5.6 Luna,5,forklift,clean,0,minor,Wrong intermediate sums of squares; correct final SDs (score 1),yes
+GPT-5.6 Luna,5,yield,clean,0,,,yes
+GPT-5.6 Luna,5,loan,clean,0,,,yes
