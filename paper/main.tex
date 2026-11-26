@@ -20,9 +20,10 @@
 \newcommand{\LCL}{\mathrm{LCL}}
 \newcommand{\tok}[1]{\textsc{#1}}
 
-\title{Toward a Credible, Accurate and Precise Measurement System for LLM Hallucination: Statistical Process Monitoring with CUSUM, EWMA and a Process Reliability Index\\[0.3em]
+\title{Toward a Credible, Accurate and Precise Measurement System for LLM Analytical Errors and Hallucination: Statistical Process Monitoring with CUSUM, EWMA and a Process Reliability Index\\[0.3em]
 \large A Protocol and Pilot Study on Industrial Quality Data}
-\author{Srija Bhattacharyya\\[0.2em]
+\author{Srija Bhattacharyya\\[0.1em]
+\small \href{mailto:srija.bhattacharyya04@gmail.com}{\texttt{srija.bhattacharyya04@gmail.com}}\\[0.2em]
 \small B.Tech, Computer Science and Engineering, KIIT University, Bhubaneswar, India\\
 \small Under the guidance of Dr Subrata Rath, Head, SQC \& OR Unit, Indian Statistical Institute, Pune}
 \date{November 2026\\[0.3em]\small Preprint, version 1. Not peer reviewed.}
@@ -31,26 +32,26 @@
 \maketitle
 
 \begin{abstract}
-\noindent Large language models (LLMs) used for operational decisions frequently hallucinate when interpreting quantitative data, producing fluent, confident statements the data do not support. Safeguards such as human review and retrieval-augmented generation reduce risk but cost effort, computation and latency, and benchmark scores, the most systematic classical method, say little about whether a model gets each calculation right. Statistical process control (SPC) offers a complementary approach: it separates routine variation from real deterioration, directing scarce oversight where it is needed.\par\smallskip\noindent We treat an LLM doing statistical analysis as a production process and build a measurement system for it, designed to be accurate, precise and credible. Each response is audited claim by claim against independently calculated references and labelled defective or not. Batches are monitored with an upper cumulative-sum (CUSUM) chart on the defect proportion and an exponentially weighted moving-average chart on an LLM Process Reliability Index. In a pilot, three LLMs analysed three Six Sigma datasets five times each. Defect rates ranged from 1 in 15 to 4 in 13 responses, with overlapping intervals. Five responses repeated one counting error near a control limit, and a dated reanalysis traced apparent instability in one dataset to pooled improvement stages. By simulation, the pilot CUSUM gives a false alarm about once every 114 in-control batches and detects a tripling of the defect rate in about six.\par\smallskip\noindent The audit was unblinded and partly self-evaluated, so the results demonstrate the method, not drift or model ranking. We pre-register a blinded two-rater study of measurement accuracy and precision, and a Phase I calibration. As the ultimate research goal, we outline a loop in which a CUSUM signal switches the model into self-reflective retrieval (Self-RAG) only when cost and latency are justified.
+\noindent Large language models (LLMs) used for operational decisions frequently make analytical errors or hallucinate when interpreting quantitative data, producing fluent, confident statements the data do not support. Safeguards such as human review and retrieval-augmented generation reduce risk but cost effort, computation and latency, and benchmark scores, the most systematic classical method, say little about whether a model gets each calculation right. Statistical process control (SPC) offers a complementary approach: it separates routine variation from real deterioration, directing scarce oversight where it is needed.\par\smallskip\noindent We treat an LLM doing statistical analysis as a production process and build a measurement system for it, designed to be accurate, precise and credible. Each response is audited claim by claim against independently calculated references and labelled defective or not. Batches are monitored with an upper cumulative-sum (CUSUM) chart on the defect proportion and an exponentially weighted moving-average chart on an LLM Process Reliability Index. In a pilot, three LLMs analysed three Six Sigma datasets five times each. Defect rates ranged from 1 in 15 to 4 in 13 responses, with overlapping intervals. Five responses repeated one counting error near a control limit, and a dated reanalysis traced apparent instability in one dataset to pooled improvement stages. By simulation, the pilot CUSUM gives a false alarm about once every 114 in-control batches and detects a tripling of the defect rate in about six.\par\smallskip\noindent The audit was unblinded and partly self-evaluated, so the results demonstrate the method, not drift or model ranking. We pre-specify a blinded two-rater study of measurement accuracy and precision, and a Phase I calibration. As the ultimate research goal, we outline a loop in which a CUSUM signal switches the model into self-reflective retrieval (Self-RAG) only when cost and latency are justified.
 
-\medskip\noindent\textbf{Keywords:} large language models; hallucination; measurement system analysis; statistical process control; CUSUM; V-mask; EWMA; process capability; inter-rater reliability; Self-RAG.
+\medskip\noindent\textbf{Keywords:} large language models; analytical errors; hallucination; measurement system analysis; statistical process control; CUSUM; V-mask; EWMA; process capability; inter-rater reliability; Self-RAG.
 \end{abstract}
 
 %=====================================================================
 \section{Introduction}
-Large language models frequently hallucinate when they interpret quantitative data: they generate fluent, confident statements that are not supported by the data in front of them \citep{ji2023hallucination,huang2025survey}. Hallucination persists in state-of-the-art systems, and part of the reason lies in how models are evaluated: training and evaluation procedures that score only right-or-wrong answers reward guessing over acknowledging uncertainty \citep{kalai2025why}.
+Large language models frequently make analytical errors and hallucinate when they interpret quantitative data: they generate fluent, confident statements that are not supported by the data in front of them \citep{ji2023hallucination,huang2025survey}. Hallucination persists in state-of-the-art systems, and part of the reason lies in how models are evaluated: training and evaluation procedures that score only right-or-wrong answers reward guessing over acknowledging uncertainty \citep{kalai2025why}.
 
 The consequences are sharper in industrial quality work than in casual use. LLMs are now asked to compute control limits, count out-of-limit points and judge process stability. A single wrong classification, such as reporting that 33 points lie below a limit when the true figure is 32, changes how a process is understood and where an improvement team looks next. For this setting the relevant question is not how accurate a model is on average, but whether a given answer can be trusted, and whether that trust holds as the model is used again and again.
 
-This paper treats that question as a problem of measurement and process control. We build a \emph{measurement system} for LLM analytical output, require it to be accurate, precise and credible in the sense of industrial measurement systems analysis, and use it to feed a \emph{process-performance metric} that is monitored with classical control charts. The pilot reported here applies the system to three Six Sigma datasets (forklift breakdowns, manufacturing yield and loan-disbursement days; 141 process observations), each analysed by three model labels (GPT-5.6 Luna, Claude Sonnet 5.5 and Gemini 3.8 Flash) in five fresh sessions.
+This paper treats that question as a problem of measurement and process control. We build a \emph{measurement system} for LLM analytical output, require it to be accurate and precise in the sense of industrial measurement systems analysis and credible in the sense of being independently and blindly verified, and use it to feed a \emph{process-performance metric} that is monitored with classical control charts. The pilot reported here applies the system to three Six Sigma datasets (forklift breakdowns, manufacturing yield and loan-disbursement days; 141 process observations), each analysed by three model labels (GPT-5.6 Luna, Claude Sonnet 5.5 and Gemini 3.8 Flash) in five fresh sessions.
 
 Of 45 planned responses, 42 were cleanly mapped, one was ambiguously mapped and two were absent. Seven responses were materially defective. Provisional defect proportions were 2/14 for Claude (14.3\%; exact 95\% CI 1.8--42.8\%), 4/13 for Gemini (30.8\%; 9.1--61.4\%) and 1/15 for GPT (6.7\%; 0.2--31.9\%); the intervals overlap widely, so the models cannot be ranked. Five of the seven defects were the same threshold-counting mistake on the loan data. Under pre-specified illustrative parameters, the upper CUSUM chart (reference value $k=0.19$, decision interval $h=0.67$) raised no alarm, and the lower EWMA chart of the reliability index (smoothing constant $\lambda=0.20$, limit width $L=2.7$, reference mean $\mu_0=90$) signalled once, for Claude at Run~1. By simulation, the CUSUM design has an in-control average run length of about 114 batches at a 10\% defect rate and detects a shift to 30\% in about six batches. A dated reanalysis of the loan data shows that seven apparent out-of-limit points in the Analyse \& Improve phase disappear once that phase is split at its three recorded interventions.
 
 The contributions are:
 \begin{enumerate}[leftmargin=*]
-\item \textbf{A measurement system for LLM hallucination} with explicit criteria for accuracy, precision and credibility, mapped onto attribute measurement systems analysis \citep{aiag2010msa} and inter-rater agreement \citep{cohen1960,byrt1993}.
+\item \textbf{A measurement system for LLM analytical errors and hallucination} with explicit criteria for accuracy, precision and credibility, mapped onto attribute measurement systems analysis \citep{aiag2010msa} and inter-rater agreement \citep{cohen1960,byrt1993}.
 \item \textbf{A process-performance metric and monitoring scheme}: a binary response-level defect label, a composite LLM Process Reliability Index (LPRI), an upper CUSUM in tabular and V-mask form, and a lower EWMA, with run-length properties characterised by simulation.
-\item \textbf{A pilot demonstration} with every reference value, label and chart computation reported, and a pre-registered blinded rating study and Phase~I calibration design.
+\item \textbf{A pilot demonstration} with every reference value, label and chart computation reported, and a pre-specified blinded rating study and Phase~I calibration design.
 \item \textbf{An ultimate research goal}: a closed loop in which a CUSUM signal switches the model into a self-reflective retrieval mode \citep{asai2024selfrag}, after which the chart is recalibrated, so that additional cost and latency are incurred only when a shift has been detected.
 \end{enumerate}
 
@@ -72,7 +73,7 @@ In industrial quality practice, no process metric is trusted until the measureme
 An LLM evaluated by itself, or by an unqualified rubric, fails these tests regardless of how sophisticated the downstream statistics are.
 
 \subsection{Process performance and statistical process control}
-Once a measurement system is qualified, the quantity it produces can be treated as the output of a process and monitored. Shewhart-type charts detect large shifts; the cumulative-sum (CUSUM) chart \citep{page1954} and the exponentially weighted moving-average (EWMA) chart \citep{roberts1959,lucas1990} are the standard tools for \emph{small, persistent} shifts \citep{montgomery2019}. The CUSUM can be operated in tabular form or graphically with a V-mask, a procedure proposed by Barnard and described in the \citet{nist}; the two forms are equivalent. For a monitored proportion, Bernoulli CUSUM designs are well established \citep{reynolds1999}. When several quality characteristics are monitored jointly, as a \emph{vector}, multivariate CUSUM \citep{crosier1988} and multivariate EWMA \citep{lowry1992} charts apply.
+Once a measurement system is qualified, the quantity it produces can be treated as the output of a process and monitored. Shewhart-type charts detect large shifts; the cumulative-sum (CUSUM) chart \citep{page1954} and the exponentially weighted moving-average (EWMA) chart \citep{roberts1959,lucas1990} are the standard tools for \emph{small, persistent} shifts \citep{montgomery2019}. The CUSUM can be operated in tabular form or graphically with a V-mask, a procedure proposed by Barnard and described in the NIST/SEMATECH e-Handbook \citep{nist}; the two forms are equivalent. For a monitored proportion, Bernoulli CUSUM designs are well established \citep{reynolds1999}. When several quality characteristics are monitored jointly, as a \emph{vector}, multivariate CUSUM \citep{crosier1988} and multivariate EWMA \citep{lowry1992} charts apply.
 
 Process \emph{capability} describes what an in-control process delivers. For attribute data, capability is expressed through the in-control fraction nonconforming rather than through Cp or Cpk \citep{montgomery2019}. A performance estimate computed before stability has been demonstrated is a \emph{performance} figure, not a capability figure; we keep that distinction throughout. Control-chart run lengths are sensitive to how in-control parameters are estimated \citep{jensen2006}, which is why the pilot parameters here are characterised by simulation rather than presented as calibrated.
 
@@ -112,12 +113,12 @@ Snapshot comparison & -- & $\circ$ & -- & -- & -- \\
 Detectors (SelfCheckGPT, FActScore) & \checkmark & -- & -- & $\circ$ & -- \\
 LLM-as-judge & \checkmark & -- & -- & -- & -- \\
 RAG / Self-RAG & $\circ$ & -- & $\circ$ & -- & $\circ$ \\
-\textbf{This work} & \checkmark & \checkmark & \checkmark & \checkmark\ (planned) & \checkmark\ (goal) \\
+\textbf{This work} & \checkmark & $\circ$\ (pilot) & \checkmark & \checkmark\ (planned) & \checkmark\ (goal) \\
 \bottomrule
 \end{tabular}}
 \end{table}
 
-The novelty is fourfold. (i)~We frame the evaluation of LLM output as a \emph{measurement system} that must be shown to be accurate, precise and credible before its readings are used. (ii)~We define a \emph{process-performance metric} (the response-level defect rate and the LPRI) and monitor it with CUSUM and EWMA charts whose operating characteristics are stated. (iii)~We show on real DMAIC data that claim-level auditing exposes systematic failure modes that an aggregate score would hide. (iv)~We set out a closed loop in which the CUSUM signal, not a per-token heuristic, decides when to pay for retrieval and self-critique.
+The novelty is fourfold. (i)~We frame the evaluation of LLM output as a \emph{measurement system} that must be shown to be accurate, precise and credible before its readings are used. (ii)~We define a \emph{process-performance metric} (the response-level defect rate and the LPRI) and monitor it with CUSUM and EWMA charts whose operating characteristics are stated. (iii)~We illustrate on DMAIC project data that claim-level auditing exposes systematic failure modes that an aggregate score would hide. (iv)~We set out a closed loop in which the CUSUM signal, not a per-token heuristic, decides when to pay for retrieval and self-critique.
 
 %=====================================================================
 \section{Materials and methods}\label{sec:methods}
@@ -183,7 +184,7 @@ Three model labels were tested as displayed in their chat interfaces: GPT-5.6 Lu
 
 \textbf{Deviation from the original audit.} The original audit counted one ambiguous Claude Run~3 slot (a forklift prompt followed by a loan analysis) as a provisional defect, contrary to the integrity rule. This version reclassifies it as an integrity event; the original classification is reported as a sensitivity analysis (Section~\ref{sec:sensitivity}).
 
-\textbf{Measurement-system qualification.} Table~\ref{tab:msa} maps the requirements of attribute measurement systems analysis onto this rubric. Only the accuracy of the answer key is established in this version; the remaining properties are assessed by the pre-registered study in Section~\ref{sec:kappa}.
+\textbf{Measurement-system qualification.} Table~\ref{tab:msa} maps the requirements of attribute measurement systems analysis onto this rubric. Only the accuracy of the answer key is established in this version; the remaining properties are assessed by the pre-specified study in Section~\ref{sec:kappa}.
 
 \begin{table}[!htbp]
 \centering\small
@@ -377,16 +378,17 @@ GPT-5.6 Luna$^{*}$ & 1 / 15 & 6.7\% & 0.2--31.9\% \\
 \bottomrule
 \end{tabular}
 \end{table}
-The intervals overlap almost entirely, so these data cannot rank the models. Six of the seven defects were on the loan dataset, one on forklift and none on yield.
+Table~\ref{tab:rates} gives the defect proportions with exact confidence intervals. The intervals overlap almost entirely, so these data cannot rank the models. Six of the seven defects were on the loan dataset, one on forklift and none on yield. All seven were calculation or classification errors; none was recorded as a fabrication (score~3).
 
 \subsection{Error patterns}
-\textbf{One counting error recurred across sessions and models.} Five responses (Gemini Runs 1, 3, 4, 5; GPT Run 3) said that 33 of 36 Analyse \& Improve values lie below the Baseline LCL of 12.80. The true count is 32: one value is 13 and three are 14. A value close to a limit appears to be a reliable trap. The prompt did not ask for this comparison; the models volunteered it.
+\textbf{One counting error recurred across sessions and models.} Five responses (Gemini Runs 1, 3, 4, 5; GPT Run 3) said that 33 of 36 Analyse \& Improve values lie below the Baseline LCL of 12.80. The true count is 32: one value is 13 and three are 14. A value close to a limit appears to be a trap. The prompt did not ask for this comparison; the models volunteered it.
 
 \textbf{Right answer, wrong working.} GPT Run 5 reported correct forklift SDs after showing incorrect intermediate sums of squares. Under the rubric this scores 1, but a reader who reused the working would inherit the error.
 
 \textbf{Appropriate caution was common.} Most responses correctly stated that improvement is not stability, that phase-specific limits can hide between-phase shifts, that Cp/Cpk need specification limits and that annotations do not prove causation. The rubric does not let these strengths offset a material numerical error.
 
 \subsection{Batch quantities}
+Table~\ref{tab:batch} gives each model's batch defect proportion $D_t$, integrity proportion $I_t$ and LPRI (Eq.~\ref{eq:lpri}). Gemini's lower mean LPRI reflects both its recurring loan error and its two absent responses.
 \begin{table}[!htbp]
 \centering\small
 \caption{Batch defect proportion $D_t$, integrity proportion $I_t$ and $\LPRI_t$ (Eq.~\ref{eq:lpri}).}\label{tab:batch}
@@ -492,7 +494,7 @@ For the ordinal 0--3 severity score, the quadratically weighted kappa \citep{coh
 where $O_{ij}$ is the number of responses scored $i$ by one rating and $j$ by the other. The same formulas give within-rater (repeatability), between-rater (reproducibility) and rater-versus-reference (accuracy) agreement. Confidence intervals use the percentile bootstrap with 2{,}000 resamples of responses. Agreement between the original ChatGPT audit and the adjudicated label is reported separately for GPT responses and for the others, as a direct measure of the self-preference bias documented by \citet{panickssery2024self}.
 
 \subsection{Decision rule and expected precision}
-The adjudicated labels will be used for monitoring only if between-rater binary $\kappa\ge0.60$, the threshold fixed in the original protocol; otherwise the rubric is revised, both raters re-score, and the failed round is reported. All intervals are reported. With 42 responses and a defect prevalence near 17\%, simulation shows that a true $\kappa\approx0.70$ yields a 95\% interval about 0.55 wide, so the study will test whether the rubric is usable rather than pin down its reliability precisely.
+The adjudicated labels will be used for monitoring only if between-rater binary $\kappa\ge0.60$, the threshold fixed before any rating was collected; otherwise the rubric is revised, both raters re-score, and the failed round is reported. All intervals are reported. With 42 responses and a defect prevalence near 17\%, simulation shows that a true $\kappa\approx0.70$ yields a 95\% interval about 0.55 wide, so the study will test whether the rubric is usable rather than pin down its reliability precisely.
 
 %=====================================================================
 \section{Ultimate research goal: a CUSUM-triggered Self-RAG loop}\label{sec:goal}
@@ -590,10 +592,10 @@ A quality team using an LLM for SPC calculations should treat the model, version
 The response archive is small (42 cleanly mapped of 45 planned) and incomplete. Model build identifiers, sampling settings and true timestamps were not logged. Labels come from one unblinded LLM audit with GPT self-evaluated, and the measurement system's accuracy and precision are not yet established. All chart parameters and LPRI weights are illustrative, and the five-run sequences are not verified time series. Only three datasets and one prompt per dataset were used. The closed loop of Section~\ref{sec:goal} is a proposal; its costs, latencies and benefits are untested. On the process side, forklift exposure, yield specifications and the meaning of the second loan column are unknown.
 
 \section{Conclusion}
-LLMs hallucinate often enough, and confidently enough, that their analytical output needs to be measured the way industry measures any process it depends on. This paper sets out such a measurement system, states what it would take for it to be accurate, precise and credible, and couples it to a process-performance metric monitored with CUSUM and EWMA charts. In a pilot on real DMAIC data the system ran end to end, exposed a counting error that recurred across sessions and models, and produced chart signals whose operating properties can be stated exactly. Those signals are not yet evidence of drift or of any model's superiority; that requires the pre-registered rating study and a Phase~I baseline. The longer-term aim is a self-correcting loop in which a detected shift, and only a detected shift, buys the extra cost of retrieval and self-critique.
+LLMs make analytical errors and hallucinate often enough, and confidently enough, that their analytical output needs to be measured the way industry measures any process it depends on. This paper sets out such a measurement system, states what it would take for it to be accurate, precise and credible, and couples it to a process-performance metric monitored with CUSUM and EWMA charts. In a pilot on DMAIC project data the system ran end to end, exposed a counting error that recurred across sessions and models, and produced chart signals whose operating properties can be stated exactly. Those signals are not yet evidence of drift or of any model's superiority; that requires the pre-specified rating study and a Phase~I baseline. The longer-term aim is a self-correcting loop in which a detected shift, and only a detected shift, buys the extra cost of retrieval and self-critique.
 
 \section*{Declarations}
-\textbf{Data and materials.} The process-data workbook, the 43 response transcripts, the label sheet, reference calculations, blinded rating kit and analysis code will be released at [repository link to be added].\\
+\textbf{Data and materials.} The process-data workbook, the three prompts, the response-level audit labels, the analysis code and the blank rater form are available at \url{https://github.com/srijabhattacharyya/LLM-SPC-Reliability}. The 43 response transcripts and the blinding key will be released after the blinded rating study, so that raters cannot identify which model produced each coded response.\\
 \textbf{Use of AI tools.} The original response audit was performed with ChatGPT. Claude (Anthropic) assisted with manuscript drafting and with re-checking calculations in code. The author designed the study, collected the responses and is responsible for all content.\\
 \textbf{Conflicts of interest.} None declared. No model provider was involved in the study.\\
 \textbf{Funding.} None.\\
@@ -692,10 +694,10 @@ Show calculations. Do not invent application volumes, exposure denominators, p-v
 
 \section{Supplementary materials}
 \begin{itemize}[leftmargin=*]
-\item \textbf{S1.} Process-data workbook (three sheets; months and intervention notes for the loan data).
-\item \textbf{S2.} Response transcripts, coded R01--R43.
-\item \textbf{S3.} Blinded rating kit: rater form, master workbook with blinding key, adjudication sheet and agreement calculator.
-\item \textbf{S4.} Analysis scripts: reference values, CUSUM/EWMA series, ARL simulation, and $\kappa$ with bootstrap intervals.
+\item \textbf{S1.} Process-data workbook (three sheets; months and intervention notes for the loan data). Available in the repository.
+\item \textbf{S2.} Response transcripts, coded R01--R43. To be released after the blinded rating study.
+\item \textbf{S3.} Blinded rating kit: rater form (available in the repository); master workbook with blinding key, adjudication sheet and agreement calculator (held by the author until the rating study is complete).
+\item \textbf{S4.} Analysis scripts: reference values, CUSUM/EWMA series, sensitivity analyses, ARL simulation, figures, and $\kappa$ with bootstrap intervals. Available in the repository.
 \end{itemize}
 
 \end{document}
